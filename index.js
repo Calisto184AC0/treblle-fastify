@@ -8,6 +8,14 @@ const {
 } = require('@treblle/utils')
 const { version: sdkVersion } = require('./package.json')
 
+/**
+ *
+ * @param {import('fastify').FastifyInstance} fastify
+ * @param {Object} config
+ * @param {string} config.apiKey
+ * @param {string} config.projectId
+ * @param {string[]} config.additionalFieldsToMask
+ */
 async function treblleFastify(
   fastify,
   {
