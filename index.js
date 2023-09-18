@@ -7,6 +7,7 @@ const {
   getResponsePayload,
 } = require('@treblle/utils')
 const { version: sdkVersion } = require('./package.json')
+const parseMultipartBody = require('./utils/parseMultipartBody.cjs')
 
 /**
  *
@@ -30,8 +31,14 @@ async function treblleFastify(
     reply.payload = payload
     done()
   })
+
   fastify.addHook('onResponse', (request, reply, done) => {
     done()
+
+    if ('isMultipart' in request && request.isMultipart() && Object.keys(request.body).length > 0) {
+      request.body = parseMultipartBody(request.body)
+    }
+
     let errors = []
     const body = request.body ?? {}
     const params = request.params
